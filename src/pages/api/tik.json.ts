@@ -7,14 +7,15 @@ export const GET: APIRoute = async ({ request }) => {
     let url = new URL(request.url);
     let params = url.searchParams;
     let urlTik = params.get("url") || "";
-    if (!urlTik) {
-      return new Response(JSON.stringify({ error: "url is required" }), {
-        status: 400,
-        headers: {
-          "content-type": "application/json",
-        },
-      });
-    }
+
+if (!urlTik.includes("tiktok.com") && !urlTik.includes("douyin")) {
+  return new Response(JSON.stringify({ error: "Invalid TikTok URL" }), {
+    status: 400,
+    headers: { "content-type": "application/json" },
+  });
+}
+
+
     //create a where unshorten the url
     console.log(urlTik.includes("douyin"));
     if (urlTik.includes("douyin")) {
@@ -37,12 +38,17 @@ export const GET: APIRoute = async ({ request }) => {
         "content-type": "application/json",
       },
     });
-  } catch (error) {
-    return new Response(JSON.stringify({ error: error.message }), {
-      status: 500,
-      headers: {
-        "content-type": "application/json",
-      },
-    });
-  }
+
+
+} catch (error) {
+  console.error("TikTok Downloader Error:", error);
+  return new Response(JSON.stringify({ error: error.message || "Unexpected error" }), {
+    status: 500,
+    headers: { "content-type": "application/json" },
+  });
+}
+
+
+    
+ 
 };

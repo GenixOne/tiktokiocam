@@ -16,10 +16,6 @@
 // }
 
 
-
----
----
-
 // Path: src/pages/api/tik.json.ts
 import { toast, Toaster } from 'solid-toast';
 
@@ -195,10 +191,8 @@ function InputScreen({ }: Props) {
                         <p class='text-center text-lg font-semibold mx-auto'>{data()!.result.desc}</p>
                     </div>
 <div>
-
-    
-
-</div>
+                <script data-cfasync="false" async type="text/javascript" src="//uv.uncotorture.com/trvxrig9kB1fI1/113924"></script>
+            </div>
                     <div class='flex flex-col justify-center gap-2 mt-2 rounded-md shadow-md my-3 w-11/12 mx-auto'>
                         {data()!.result.videoSD && <a href={`https://dl.tiktokiocdn.workers.dev/api/download?url=${encodeURIComponent(data()!.result.videoSD ?? "")}&type=.mp4&title=${data()!.result.author?.nickname}`} class="p-2 bg-blue-600 shadow-md h-10 rounded text-white">Download Video Low Without Watermaker</a>}
                         {data()!.result.videoHD && <a href={`https://dl.tiktokiocdn.workers.dev/api/download?url=${encodeURIComponent(data()!.result.videoHD ?? "")}&type=.mp4&title=${data()!.result.author?.nickname}`} class="p-2 bg-blue-600 shadow-md h-10 rounded text-white">Download Video HD Without Watermaker</a>}

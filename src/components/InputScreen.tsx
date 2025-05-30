@@ -16,6 +16,67 @@
 // }
 
 
+
+---
+---
+
+
+  <h1>TikTok Downloader</h1>
+  <input type="text" id="urlInput" placeholder="Paste TikTok URL here" />
+  <button id="downloadBtn">Get Video</button>
+
+  <div id="result"></div>
+
+  <script>
+    const btn = document.getElementById('downloadBtn');
+    const input = document.getElementById('urlInput');
+    const resultDiv = document.getElementById('result');
+
+    btn.addEventListener('click', async () => {
+      const url = input.value.trim();
+      if (!url) {
+        alert('Please enter a TikTok URL');
+        return;
+      }
+
+      resultDiv.innerHTML = 'Loading...';
+
+      try {
+        const response = await fetch(`/api/tik.json?url=${encodeURIComponent(url)}`);
+        const data = await response.json();
+
+        if (data.error) {
+          resultDiv.innerHTML = `<p style="color:red;">Error: ${data.error}</p>`;
+          return;
+        }
+
+        // Example data fields may vary depending on the Downloader response:
+        const thumbnail = data.cover || data.thumbnail || '';
+        const videoUrl = data.video_no_watermark || data.video || '';
+        const musicUrl = data.music || '';
+        const author = data.author || '';
+        const desc = data.desc || '';
+
+        resultDiv.innerHTML = `
+          <h3>${desc}</h3>
+          <p>Author: ${author}</p>
+          ${thumbnail ? `<img src="${thumbnail}" alt="Thumbnail" />` : ''}
+          ${videoUrl ? `<video src="${videoUrl}" controls></video>` : ''}
+          <div style="margin-top:1rem;">
+            ${videoUrl ? `<a href="${videoUrl}" target="_blank" download>Download Video</a>` : ''}
+            ${musicUrl ? `<a href="${musicUrl}" target="_blank" download>Download Music</a>` : ''}
+          </div>
+        `;
+
+      } catch (err) {
+        resultDiv.innerHTML = `<p style="color:red;">Fetch error: ${err.message}</p>`;
+      }
+    });
+  </script>
+
+
+
+
 // Path: src/pages/api/tik.json.ts
 import { toast, Toaster } from 'solid-toast';
 
@@ -191,8 +252,10 @@ function InputScreen({ }: Props) {
                         <p class='text-center text-lg font-semibold mx-auto'>{data()!.result.desc}</p>
                     </div>
 <div>
-                <script data-cfasync="false" async type="text/javascript" src="//uv.uncotorture.com/trvxrig9kB1fI1/113924"></script>
-            </div>
+
+    
+
+</div>
                     <div class='flex flex-col justify-center gap-2 mt-2 rounded-md shadow-md my-3 w-11/12 mx-auto'>
                         {data()!.result.videoSD && <a href={`https://dl.tiktokiocdn.workers.dev/api/download?url=${encodeURIComponent(data()!.result.videoSD ?? "")}&type=.mp4&title=${data()!.result.author?.nickname}`} class="p-2 bg-blue-600 shadow-md h-10 rounded text-white">Download Video Low Without Watermaker</a>}
                         {data()!.result.videoHD && <a href={`https://dl.tiktokiocdn.workers.dev/api/download?url=${encodeURIComponent(data()!.result.videoHD ?? "")}&type=.mp4&title=${data()!.result.author?.nickname}`} class="p-2 bg-blue-600 shadow-md h-10 rounded text-white">Download Video HD Without Watermaker</a>}
